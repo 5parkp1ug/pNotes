@@ -19,7 +19,7 @@
 	//salting of password
 	$salt="@g26jQsG&nh*&#8v";
 	$password=  sha1($pass.$salt);
-	$login_url = "<a href='/index.php?email=$email'>here</a>";
+	$login_url = "<a href='/pnotes/index.php?email=$email'>here</a>";
 	$query = "insert into users (name,email,password) values('$name', '$email', '$password');";
 
 	if (mysqli_query($connection, $query)) {

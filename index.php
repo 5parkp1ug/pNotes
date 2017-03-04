@@ -23,7 +23,7 @@
   </head>
 
   <body>
-	
+
 		<!-- Default Navigation Bar-->
 		<?php include "default-nav.html" ?>
 
@@ -32,22 +32,22 @@
 			<div class="col-md-4 col-md-offset-4">
 				<div class="panel panel-default">
 					<div class="panel-heading">Sign In</div>
-					<div class="panel-body">			
+					<div class="panel-body">
 						<!-- Login Form -->
-						<form id="login-form" class="form-signin" method="POST" action=action="javascript:login();">
-							
+						<form id="login-form" class="form-signin" method="POST" action="javascript:login();">
+
 							<div class="form-group">
-								<label for="username" class="cols-sm-2 control-label">Username</label>
+								<label for="email" class="cols-sm-2 control-label">email</label>
 								<div class="cols-sm-10">
 									<div class="input-group">
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 										</span>
-										<input type="text" class="form-control" name="username" id="username"  placeholder="Enter your Username" value="<?php echo $_GET['email']; ?>"/>
+										<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your email" value="<?php if(isset($_GET['email']))echo $_GET['email']; ?>"/>
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="form-group">
 								<label for="password" class="cols-sm-2 control-label">Password</label>
 								<div class="cols-sm-10">
@@ -55,17 +55,17 @@
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
 										</span>
-										<input type="text" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+										<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
 									</div>
 								</div>
 							</div>
-							
-							
+
+
 							<div class="checkbox">
 								<label><input type="checkbox"> Remember me</label>
 							</div>
 							<button type="submit" class="btn btn-default">Submit</button>
-							
+
 						</form>
 						<hr />
 						<a class="btn btn-lg btn-primary btn-block" href="register1.php">Register</a>
@@ -73,8 +73,8 @@
 					</div>
 				</div>
 			</div>
-		</div>	
-				
+		</div>
+
 	</div> <!-- /container -->
 
 	<!-- Default Foter-->
@@ -86,19 +86,20 @@
 	<script type="text/javascript">
 		function login(){
 
-		// 	$.ajax({
-		// 		type: "POST",
-		// 		url: "login.php",
-		// 		data: $("#login-form").serializeArray(),
-		// 		success: function(response) {
-		// 			console.log response
+			$.ajax({
+				type: "POST",
+				url: "login.php",
+				data: $("#login-form").serializeArray(),
+				success: function(response) {
+					window.location = "home.php
+					";
+					//console.log(response);
+					//console.log(response['status']);
+					//
 
-		// 		}
-		// });
-			console.log($("#login-form").serializeArray());
+				}
+		});
 		}
-	</script>	
+	</script>
   </body>
 </html>
-
-
