@@ -8,10 +8,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	<style>
 		body{
 			background-color:#F3F3F3;
@@ -21,8 +21,8 @@
   </head>
   
  <body>
-<!-- Default Navigation Bar-->
-<?php include "default-nav.html" ?>
+	<!-- Default Navigation Bar-->
+	<?php include "default-nav.html" ?>
 
 	
 <div class="container">
@@ -32,8 +32,12 @@
 					<div class="panel-heading">Register</div>
 					<div class="panel-body">			
 						<!-- Login Form -->
-						<form id="register-form" data-toggle="validator" class="form-signin" method="POST" action="javascript:register();">
+						<form id="register-form" data-toggle="validator" role="form" class="form-signin" method="POST" action="javascript:register();">
 							
+						    <div class="hidden form-group alert-dismissible" id="message">
+						    	<span class="close" data-dismiss="alert">&times;</span>
+						    </div>
+
 							<div class="form-group">
 								<label for="name" class="cols-sm-2 control-label">Name</label>
 								<div class="cols-sm-10">
@@ -41,20 +45,22 @@
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 										</span>
-										<input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name"/>
+										<input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name" required/>
 									</div>
 								</div>
 							</div>
 							
-							<div class="form-group">
+							<div class="form-group has-feedback">
 								<label for="email" class="cols-sm-2 control-label">Email</label>
 								<div class="cols-sm-10">
 									<div class="input-group">
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 										</span>
-										<input type="email" class="form-control" name="email" id="emailob" data-error="Invalid Email" placeholder="Enter your Email"/>
+										<input type="email" class="form-control" name="email" id="emailob" data-error="Invalid Email" placeholder="Enter your Email" required/>
+										<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 									</div>
+									<div class="help-block with-errors"></div>
 								</div>
 							</div>
 							
@@ -65,8 +71,9 @@
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
 										</span>
-										<input type="text" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+										<input type="password" data-minlength="6" class="form-control" name="password" id="password"  placeholder="Enter your Password" required/>
 									</div>
+									<div class="help-block with-errors"></div>
 								</div>
 							</div>
 							
@@ -77,8 +84,9 @@
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
 										</span>
-										<input type="text" class="form-control" name="repassword" id="repassword"  placeholder="Enter your Password Again"/>
+										<input type="password" class="form-control" name="repassword" id="repassword" data-match="#password" data-match-error="Whoops, these don't match" placeholder="Enter your Password Again" required/>
 									</div>
+									<div class="help-block with-errors"></div>
 								</div>
 							</div>
 							<button type="submit" class="btn btn-default">Submit</button>
@@ -95,32 +103,43 @@
 	<!-- Default Foter-->
 	<?php include "footer.html" ?>
 
-	<script type="text/javascript" src="https://cdnjs.com/libraries/1000hz-bootstrap-validator"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
 	<script type="text/javascript">
 		function register() {
+		  	// console.log($("#register-form").serializeArray())
+
 		  	$.ajax({
 				type: "POST",
 				url: "register-users.php",
 				data: $("#register-form").serializeArray(),
 				success: function(response) {
-					if (response.status === "OK") {
-						set_message(response.name, "alert-success", "alert-danger");
-					} else {
-						set_message(response.message, "alert-danger", "alert-success");
-					}
 					console.log(response);
+					if(response['status'] == 'OK'){
+						success_message = response['message'];
+						set_message(success_message, "alert alert-success fade in", "alert alert-danger fade input", 1);	
+					}
+					else {
+						set_message(response['number']+": "+response['error'], "alert alert-danger fade in", "alert alert-success fade in", 0);
+					}
 		  		}
 			});	
+
 		}
-		function set_message(message, class_to_add, class_to_remove) {
+		
+
+		function set_message(message, class_to_add, class_to_remove, form_reset_flag) {
+
 			$("#message").html(message);
 			$("#message").removeClass(class_to_remove);
 			$("#message").addClass(class_to_add);
-			$("#message").show();
+			$("#message").removeClass("hidden");
+			if (form_reset_flag)
+				$("#register-form")[0].reset();
 		}
+		  
 	</script>
   </body>
 </html>

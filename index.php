@@ -1,3 +1,8 @@
+<?php 
+	session_start();
+	if (isset($_SESSION['email'])) 
+		header('location:home.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -68,7 +73,7 @@
 
 						</form>
 						<hr />
-						<a class="btn btn-lg btn-primary btn-block" href="register1.php">Register</a>
+						<a class="btn btn-lg btn-primary btn-block" href="register.php">Register</a>
 						Forgot Password? <a href="forgot_password.php"> Get started here</a>
 					</div>
 				</div>
@@ -88,15 +93,10 @@
 
 			$.ajax({
 				type: "POST",
-				url: "login.php",
+				url: "/login.php",
 				data: $("#login-form").serializeArray(),
 				success: function(response) {
-					window.location = "home.php
-					";
-					//console.log(response);
-					//console.log(response['status']);
-					//
-
+					window.location = "/home.php";
 				}
 		});
 		}
