@@ -19,6 +19,7 @@
 			setcookie('email', $user["email"]);
 			$_SESSION['name'] = $user["name"];
 			setcookie('name', $user["name"]);
+			setcookie('id', $user["id"]);
 			echo json_encode($response);
 		} else {
 			$response['result'] = "Invalid ID";

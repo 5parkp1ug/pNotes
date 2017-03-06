@@ -38,16 +38,45 @@
 		}
 	}
 
-
-	//create a default notebook for the user
-
-/*	$query = "insert into notebooks (user_id, notebook_name, notebook_table_name) values(1, 'default', '$password');";
+	//Find the last max id value which is the last user who registered
+	$query = "select max(id) from users;";
+	$result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+	$max_id = mysqli_fetch_assoc($result);
+	$max_user_id = $max_id['max(id)'];
+	$response['created-user-id'] = $max_user_id;
+	
+	//create a table for default notebook for the user to store notes
+	$default_notebook_name = md5("$max_user_id"."Default");
+	$query = "CREATE TABLE $default_notebook_name(note_id int auto_increment primary key, note_text VARCHAR(100))";
 	if (mysqli_query($connection, $query)) {
-	    	$response['status'] = 'OK';
-	    	$response['message'] = "Registration Successful. Click $login_url to continue to login.";
-	    	$response['name'] = $name;
-	    	$response['email'] = $email;
+	    	$response['notebook-table-create-flag'] = 'OK';
 
-	}*/
+	}
+	else {
+		$response['notebook-table-create-flag'] = 'FAILED';		
+	}
+
+	// update the notebooks-info table
+	
+	$query = "insert into notebooks_info (user_id, notebook_name, notebook_table_name) values($max_user_id, 'Default', '$default_notebook_name');";
+	if (mysqli_query($connection, $query)) {
+	    $response['notebooks-add-entry'] = 'OK';
+
+	}
+	else {
+		$response['notebooks-add-entry'] = 'FAILED';		
+	}
+
+
+	//create a default note for the user
+	$query = "insert into $default_notebook_name (note_text) values ('This is a test Post');";
+	if (mysqli_query($connection, $query)) {
+	    	$response['create-first-note'] = 'OK';
+
+	}
+	else {
+		$response['create-first-note'] = 'FAILED';		
+	}
+	
 	echo json_encode($response)
 ?>

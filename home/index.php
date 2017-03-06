@@ -70,7 +70,7 @@
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">
+                <ul class="nav navbar-nav side-nav notebook-container" id="left-sidebar">
                     <li class="active">
                         <a href="/"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
@@ -78,8 +78,8 @@
                     <li>
                         <a href="/"><i class="fa fa-fw fa-plus-square"></i> New Notebook</a>                 
                     </li>
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Notebooks <i class="fa fa-fw fa-caret-down"></i></a>
+                    <!--     <li>
+                        <a href="javascript:document.location;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-book"></i> <span class="notebook_name">Notebooks</span> <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
                                 <a href="#">Dropdown Item</a>
@@ -89,7 +89,7 @@
                             </li>
                         </ul>
                     </li>
-                <!--     <li>
+                    <li>
                         <a href="/home/charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
                     </li>
                     <li>
@@ -267,19 +267,29 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript">
+
+
+
         $(function() {
             name = getCookie("name");
             $(".name").html(name);
-
-           /* $.ajax({
-                type: "POST",
-                url: "/get_user_info.php",
-                data: $("#login-form").serializeArray(),
-                success: function(response) {
-                    window.location = "/home.php";
-                }
-        });*/
+            $.ajax({
+                    type: "POST",
+                    url: "/home/get_user_info.php",
+                    success: function(response) {
+                        console.log(response);
+                        response['notebooks'].forEach(function(notebook) {
+                            $('.notebook-container').loadTemplate($("#notebookTemplate"), notebook, { append: true });
+                            setDataTarget(notebook['notebook_id']);
+                        });
+                    }
+            });            
         });
+        function setDataTarget (notebook_id) {
+            $("a#demo").attr("data-target", "#"+notebook_id);
+            $("a#demo").attr("id", "");
+        }
+
         function getCookie(cname) {
             var name = cname + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
@@ -296,12 +306,24 @@
             return "";
         }         
     </script>
-
+    <script type="text/javascript" src="/js/jqueryTemplate/jquery.loadTemplate.min.js"></script>
+    <script type="text/html" id="notebookTemplate">
+        <li>
+            <a href="#" data-toggle="collapse" data-target="#demo" id="demo"><i class="fa fa-fw fa-book"></i> <span data-content="notebook_name"></span> <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul data-id="notebook_id" class="collapse">
+                <li>
+                    <a href="#">Dropdown Item</a>
+                </li>
+                <li>
+                    <a href="#">Dropdown Item</a>
+                </li>
+            </ul>
+        </li>
+    </script>
     <!-- Morris Charts JavaScript -->
     <script src="/js/plugins/morris/raphael.min.js"></script>
     <script src="/js/plugins/morris/morris.min.js"></script>
     <script src="/js/plugins/morris/morris-data.js"></script>
-    
 </body>
 
 </html>

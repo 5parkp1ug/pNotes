@@ -98,7 +98,7 @@
 				success: function(response) {
 					window.location = "/home.php";
 				}
-		});
+			});
 		}
 	</script>
   </body>
