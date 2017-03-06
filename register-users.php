@@ -19,7 +19,7 @@
 	//salting of password
 	$salt="@g26jQsG&nh*&#8v";
 	$password=  sha1($pass.$salt);
-	$login_url = "<a href='/pnotes/index.php?email=$email'>here</a>";
+	$login_url = "<a href='/index.php?email=$email'>here</a>";
 	$query = "insert into users (name,email,password) values('$name', '$email', '$password');";
 
 	if (mysqli_query($connection, $query)) {
@@ -38,5 +38,16 @@
 		}
 	}
 
+
+	//create a default notebook for the user
+
+/*	$query = "insert into notebooks (user_id, notebook_name, notebook_table_name) values(1, 'default', '$password');";
+	if (mysqli_query($connection, $query)) {
+	    	$response['status'] = 'OK';
+	    	$response['message'] = "Registration Successful. Click $login_url to continue to login.";
+	    	$response['name'] = $name;
+	    	$response['email'] = $email;
+
+	}*/
 	echo json_encode($response)
 ?>
