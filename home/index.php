@@ -268,7 +268,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript">
 
-
+        var notes = [];
 
         $(function() {
             name = getCookie("name");
@@ -277,10 +277,25 @@
                     type: "POST",
                     url: "/home/get_user_info.php",
                     success: function(response) {
-                        console.log(response);
+                        // console.log(response);
                         response['notebooks'].forEach(function(notebook) {
                             $('.notebook-container').loadTemplate($("#notebookTemplate"), notebook, { append: true });
                             setDataTarget(notebook['notebook_id']);
+
+                            //set the notes
+                            $.ajax({
+                                type: "POST",
+                                url: "/home/get_notes.php",
+                                data : {"notebook_id" : notebook["notebook_id"]},
+                                success: function(response) {
+                                    //console.log(response);
+                                    notes = response['notes'];
+                                    response['notes'].forEach(function(note) {
+                                        console.log(note);
+                                        $("#"+notebook['notebook_id']).loadTemplate($("#notesTemplate"), note, { append: true });
+                                    });
+                                }
+                            });
                         });
                     }
             });            
@@ -304,20 +319,27 @@
                 }
             }
             return "";
-        }         
+        }      
+        function alertNote(e) {
+            notes.forEach(function(note) {
+                if (e.innerHTML === note['note_name']) {
+                    $("#page-wrapper").html("<textarea>"+note['note_text']+"</textarea>");
+                };
+            });
+        }   
     </script>
     <script type="text/javascript" src="/js/jqueryTemplate/jquery.loadTemplate.min.js"></script>
     <script type="text/html" id="notebookTemplate">
         <li>
             <a href="#" data-toggle="collapse" data-target="#demo" id="demo"><i class="fa fa-fw fa-book"></i> <span data-content="notebook_name"></span> <i class="fa fa-fw fa-caret-down"></i></a>
             <ul data-id="notebook_id" class="collapse">
-                <li>
-                    <a href="#">Dropdown Item</a>
-                </li>
-                <li>
-                    <a href="#">Dropdown Item</a>
-                </li>
+
             </ul>
+        </li>
+    </script>
+    <script type="text/html" id="notesTemplate">
+        <li>
+            <a href="#" data-content="note_name" onclick="alertNote(this);"></a>
         </li>
     </script>
     <!-- Morris Charts JavaScript -->

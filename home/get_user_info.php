@@ -14,7 +14,7 @@
 			$response['user_id'] = $user_id;
 			//get notebook
 			$notebooks = array();
-			$query = "select notebook_id, notebook_name, notebook_table_name from notebooks_info where user_id='$user_id'";
+			$query = "select notebook_id, notebook_name, note_table_name from notebooks_info where user_id='$user_id'";
 			$query_result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 			while($notebook = mysqli_fetch_assoc($query_result))
 				$notebooks[] = $notebook;

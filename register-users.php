@@ -47,7 +47,7 @@
 	
 	//create a table for default notebook for the user to store notes
 	$default_notebook_name = md5("$max_user_id"."Default");
-	$query = "CREATE TABLE $default_notebook_name(note_id int auto_increment primary key, note_text VARCHAR(100))";
+	$query = "CREATE TABLE $default_notebook_name(note_id int auto_increment primary key, note_name VARCHAR(30), note_text VARCHAR(100))";
 	if (mysqli_query($connection, $query)) {
 	    	$response['notebook-table-create-flag'] = 'OK';
 
@@ -58,7 +58,7 @@
 
 	// update the notebooks-info table
 	
-	$query = "insert into notebooks_info (user_id, notebook_name, notebook_table_name) values($max_user_id, 'Default', '$default_notebook_name');";
+	$query = "insert into notebooks_info (user_id, notebook_name, note_table_name) values($max_user_id, 'Default', '$default_notebook_name');";
 	if (mysqli_query($connection, $query)) {
 	    $response['notebooks-add-entry'] = 'OK';
 
@@ -69,7 +69,7 @@
 
 
 	//create a default note for the user
-	$query = "insert into $default_notebook_name (note_text) values ('This is a test Post');";
+	$query = "insert into $default_notebook_name (note_name, note_text) values ('First Note','This is a test Post');";
 	if (mysqli_query($connection, $query)) {
 	    	$response['create-first-note'] = 'OK';
 
